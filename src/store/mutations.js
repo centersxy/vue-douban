@@ -17,6 +17,9 @@ const mutations = {
   },
   [types.WATCH_MOVIE](state, watch) {
     state.watchMovies = watch
+  },
+  [types.LIKE_COMMENT](state, like) {
+    state.likeComment = like
   }
 }
 

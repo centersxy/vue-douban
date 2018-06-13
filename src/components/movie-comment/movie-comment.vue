@@ -12,8 +12,11 @@
           <h1 class="name">{{comment.author.name}}</h1>
           <p class="text">{{comment.content}}</p>
           <span class="date">{{comment.created_at}}</span>
-          <div class="useful-count">
-            <i class="icon-thumb_up" ></i>
+          <div class="useful-count"
+               :class="{'like': isLike(comment.id)}"
+               @click="likeSign(comment.id, index)"
+          >
+            <i class="icon-thumb_up"></i>
             {{comment.useful_count}}
           </div>
         </div>
@@ -28,7 +31,7 @@
 
 <script type="text/ecmascript-6">
   import LoadMore from 'base/loadMore/loadMore'
-  
+  import { mapActions, mapGetters } from 'vuex';
   export default{
     props: {
       comments: {
@@ -51,10 +54,36 @@
     data() {
       return {}
     },
+    computed: {
+      ...mapGetters(['likeComment'])
+    },
     methods: {
       needAllComments() {
         this.$emit('needAllComment')
-      }
+      },
+      isLike(id) {
+        const cid = this.likeComment.findIndex((item) => {
+          return item === id
+        })
+        if (cid > -1) {
+          return true
+        }
+        return false
+      },
+      likeSign(id, index) {
+        // 提交
+        this.saveLikeHistory(id)
+        // 模拟点赞 + -
+        const cid = this.likeComment.findIndex((item) => {
+          return item === id
+        })
+        if (cid > -1) {
+          this.comments[index].useful_count ++
+        } else {
+          this.comments[index].useful_count --
+        }
+      },
+      ...mapActions(['saveLikeHistory'])
     },
     components: {
       LoadMore

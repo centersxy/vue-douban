@@ -16,7 +16,7 @@
         </div>
       </li>
     </ul>
-    <load-more :hasMore="hasMore" v-show="Movies.length"></load-more>
+    <load-more :hasMore="hasMore" v-show="Movies.length && needLoading"></load-more>
   </div>
 </template>
 
@@ -38,6 +38,10 @@
       needDate: {
         type: Boolean,
         default: false
+      },
+      needLoading: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
@@ -79,7 +83,9 @@
         display: flex
         align-items: center
         box-sizing: border-box
-        padding: 15px 0
+        padding: 15px
+        &.under-line
+          border-bottom-1px(#ccc)
         .info-img
           flex: 80px 0 0
           margin-right: 10px

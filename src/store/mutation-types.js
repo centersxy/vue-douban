@@ -9,3 +9,5 @@ export const SEARCH_HISTORY = 'SEARCH_HISTORY'
 export const WANT_MOVIE = 'WANT_MOVIE'
 
 export const WATCH_MOVIE = 'WATCH_MOVIE'
+
+export const LIKE_COMMENT = 'LIKE_COMMENT'

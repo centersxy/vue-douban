@@ -5,7 +5,7 @@
         <i class="icon-back"></i>
       </span>
       <span class="type">
-        <span>{{rankType}}</span>
+        <span>{{}}</span>
       </span>
     </div>
   </div>

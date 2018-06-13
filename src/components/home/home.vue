@@ -201,7 +201,7 @@
         height: 100%
         overflow: hidden
         .list-inner
-          padding: 0px 15px
+          /*padding: 0px 15px*/
     .list-fixed
       position: absolute
       top: 97px

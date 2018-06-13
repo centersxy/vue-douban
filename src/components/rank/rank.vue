@@ -25,7 +25,7 @@
           <router-link tag="div" to="/rank/new-movie" class="new-movie rank-item">
             <div class="desc">
               <h2 class="name">新片榜</h2>
-              <span class="brief">{{weekDate}}</span>
+              <span class="brief"></span>
             </div>
             <div class="rank-img">
               <!--<img v-for="(item,index) in urlList[2]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>-->

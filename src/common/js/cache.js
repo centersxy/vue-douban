@@ -95,6 +95,35 @@ export function saveWatchMovie(movie) {
 export function loadWatchFilm() {
   return storage.get(WATCH_MOVIE, [])
 }
+
+/*
+*  点赞
+* */
+const LIKE_COMMENT = '__likeComment__'
+const LINK_MAX_LEN = 20
+
+export function saveLikeComment(id) {
+  let LEN = LINK_MAX_LEN
+  let movies = storage.get(LIKE_COMMENT, [])
+  const index = movies.findIndex((item) => {
+    return item === id
+  })
+  if (index === -1) {
+    movies.push(id)
+    if (LEN && movies.length > LEN) {
+      movies.shift()
+    }
+  } else {
+    movies.splice(index, 1)
+  }
+  // 加入
+  storage.set(LIKE_COMMENT, movies)
+  return movies
+}
+
+export function loadLikeComment() {
+  return storage.get(LIKE_COMMENT, [])
+}
 /*
 *通用方法
 */

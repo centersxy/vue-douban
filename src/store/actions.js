@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import {saveSearch, deleteSearch, cleanSearch, saveWantMovie, saveWatchMovie} from "../common/js/cache"
+import {saveSearch, deleteSearch, cleanSearch, saveWantMovie, saveWatchMovie ,saveLikeComment} from "../common/js/cache"
 
 // add
 export const saveSearchHistory = function ({commit}, query) {
@@ -26,4 +26,10 @@ export const saveWantHistory = function ({commit}, movie) {
 
 export const saveWatchHistory = function ({commit}, movie) {
   commit(types.WATCH_MOVIE, saveWatchMovie(movie))
+}
+
+/*    点赞    */
+
+export const saveLikeHistory = function ({commit}, id) {
+  commit(types.LIKE_COMMENT, saveLikeComment(id))
 }
