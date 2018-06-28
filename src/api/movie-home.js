@@ -23,7 +23,6 @@ export function getMovieSoon(start, count) {
     start,
     count
   })
-
   return axios.get(url, {
     params: data
   }).then((res) => {

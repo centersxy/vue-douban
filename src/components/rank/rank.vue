@@ -9,7 +9,7 @@
         <span>电影/影人/标签</span>
       </div>
     </div>
-    <div class="rank-list">
+    <scroll class="rank-list" :date="urlList" ref="scroll">
       <div>
         <div class="scroll-content">
           <h1 class="title">精选榜单</h1>
@@ -19,29 +19,62 @@
               <span class="brief">8分以上好电影</span>
             </div>
             <div class="rank-img">
-              <!--<img v-for="(item,index) in urlList[0]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>-->
+              <img v-for="(item,index) in urlList[0]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>
+            </div>
+          </router-link>
+          <router-link tag="div" to="/rank/weekly" class="weekly rank-item">
+            <div class="desc">
+              <h2 class="name">本周口碑榜</h2>
+              <span class="brief">{{weekDate}}</span>
+            </div>
+            <div class="rank-img">
+              <img v-for="(item,index) in urlList[1]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>
             </div>
           </router-link>
           <router-link tag="div" to="/rank/new-movie" class="new-movie rank-item">
             <div class="desc">
               <h2 class="name">新片榜</h2>
-              <span class="brief"></span>
+              <span class="brief">{{weekDate}}</span>
             </div>
             <div class="rank-img">
-              <!--<img v-for="(item,index) in urlList[2]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>-->
+              <img v-for="(item,index) in urlList[2]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>
+            </div>
+          </router-link>
+          <router-link tag="div" to="/rank/us-box" class="us-box rank-item">
+            <div class="desc">
+              <h2 class="name">北美票房榜</h2>
+              <span class="brief">票房最高排名</span>
+            </div>
+            <div class="rank-img">
+              <img v-for="(item,index) in urlList[3]" :src="replaceUrl(item)" :class="{'top': index === 1 }"/>
             </div>
           </router-link>
         </div>
       </div>
-    </div>
+    </scroll>
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import { top250Rank, usBoxRank, weeklyRank, newMoviesRank } from 'api/movie-rank';
+  import weekDate from 'common/js/date'
+  import Scroll from 'base/scroll/scroll'
   export default{
     data() {
-      return {}
+      return {
+        urlList: [],
+        weekDate: ''
+      }
+    },
+    created() {
+      this._getMovieCollect()
+      this._getWeekDate()
+    },
+    activated() { // keep-alive组件激活
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
     },
     methods: {
       goSearch() {
@@ -52,13 +85,36 @@
           return ('https://images.weserv.nl/?url=' + srcUrl.replace(/http\w{0,1}:\/\//, ''));
         }
       },
+      _getWeekDate() {
+        let date = new weekDate()
+        this.weekDate = date.getWeekStartDate() +' - '+ date.getWeekEndDate()
+      },
+      _normalUrl(data) {
+        let list = []
+        data.forEach((item, index) => {
+          let subjects = item.subjects.slice(0,3)
+          list[index] = []
+          subjects.forEach((item) => {
+            list[index].push(item.subject ? item.subject.images.medium : item.images.medium)
+          })
+        })
+        this.urlList = list
+      },
+      _getMovieCollect() {
+        Promise.all([top250Rank(0,3),usBoxRank(),weeklyRank(),newMoviesRank()]).then((res) => {
+          this._normalUrl(res)
+        })
+      }
+    },
+    components: {
+      Scroll
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" type="text/stylus">
-  @import "../../common/stylus/variable.styl"
+  @import "~common/stylus/variable.styl"
   .rank
     .go-search
       height: 50px
