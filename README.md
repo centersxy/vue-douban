@@ -16,7 +16,7 @@ chrome浏览器下的iphone5/6/6 plus体验效果更佳
 
 打开手机浏览器扫描下方二维码或访问上面的地址，推荐全屏模式下体验
 
-![image](https://github.com/centersxy/vue-douban/master/qrcode/douban.png)qrcode.png)
+![image](https://github.com/centersxy/vue-douban/master/qrcode/douban.png)
 
 ### 技术栈
 - vue2.0 + vue-router + vuex：vue全家桶
